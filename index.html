@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vers van de pers — publicatieritme NRC</title>
+<link rel="stylesheet" href="assets/style.css">
+<script src="assets/plotly.min.js" charset="utf-8"></script>
+</head>
+<body>
+<header>
+  <h1>Vers van de pers</h1>
+  <p class="subtitle">Het publicatieritme van NRC, live uit <span class="channel">#vers-van-de-pers</span></p>
+</header>
+
+<nav class="filters">
+  <label>Periode
+    <select id="filter-periode">
+      <option value="7">Laatste 7 dagen</option>
+      <option value="14" selected>Laatste 14 dagen</option>
+      <option value="30">Laatste 30 dagen</option>
+      <option value="all">Alles</option>
+    </select>
+  </label>
+  <label>Desk
+    <select id="filter-desk"><option value="all">Alle desks</option></select>
+  </label>
+  <label>Artikeltype
+    <select id="filter-type"><option value="all">Alle types</option></select>
+  </label>
+  <span id="laatst-bijgewerkt" class="updated"></span>
+</nav>
+
+<section class="kpis" id="kpis"></section>
+
+<section class="card">
+  <h2>Publicaties per uur van de dag</h2>
+  <p class="uitleg">Gemiddeld aantal artikelen per dag, per uur. Het blok 16–17&nbsp;uur is uitgelicht; de stippellijn toont wat een gelijkmatige spreiding over de dagprogrammering (8–22&nbsp;uur) zou zijn.</p>
+  <div id="chart-uren"></div>
+</section>
+
+<section class="card">
+  <h2>Weekritme: weekdag × uur</h2>
+  <p class="uitleg">Gemiddeld aantal publicaties per uur, per dag van de week. Donker = druk.</p>
+  <div id="chart-heatmap"></div>
+</section>
+
+<div class="row">
+  <section class="card half">
+    <h2>Wie publiceert wanneer?</h2>
+    <p class="uitleg">Publicaties per uur, uitgesplitst naar desk.</p>
+    <div id="chart-desks"></div>
+  </section>
+  <section class="card half">
+    <h2>Productie per dag</h2>
+    <p class="uitleg">Totaal aantal publicaties per dag in de gekozen periode.</p>
+    <div id="chart-dagen"></div>
+  </section>
+</div>
+
+<section class="card">
+  <h2>Laatste publicaties</h2>
+  <table id="tabel-laatste">
+    <thead><tr><th>Tijd</th><th>Titel</th><th>Desk</th><th>Type</th></tr></thead>
+    <tbody></tbody>
+  </table>
+</section>
+
+<footer>
+  Bron: Slack-kanaal #vers-van-de-pers (DMT Slack notifier) · tijden in Nederlandse tijd ·
+  data ververst automatisch via GitHub Actions.
+</footer>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

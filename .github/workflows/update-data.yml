@@ -1,0 +1,40 @@
+name: Ververs dashboard-data
+
+on:
+  schedule:
+    - cron: "*/20 * * * *"   # elke 20 minuten nieuwe publicaties ophalen
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Nieuwe publicaties ophalen uit Slack
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        run: python scripts/fetch_slack.py
+
+      - name: Wijzigingen committen
+        run: |
+          if git diff --quiet data/publicaties.json; then
+            echo "Geen nieuwe publicaties."
+            exit 0
+          fi
+          git config user.name "versvandepers-bot"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/publicaties.json
+          git commit -m "Publicatiedata bijgewerkt"
+          git push
