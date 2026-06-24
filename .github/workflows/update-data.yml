@@ -2,7 +2,12 @@ name: Ververs dashboard-data
 
 on:
   schedule:
-    - cron: "*/20 * * * *"   # elke 20 minuten nieuwe publicaties ophalen
+    # Eén keer per uur. Bewust niet vaker: bij hosting op Cloudflare Pages
+    # telt elke data-commit als een build, en de gratis laag geeft 500
+    # builds/maand. Uurlijks (~720 runs, lang niet allemaal met nieuwe data)
+    # blijft daar netjes onder. Host je op GitHub Pages zonder Cloudflare?
+    # Dan mag dit gerust terug naar "*/20 * * * *" voor versere cijfers.
+    - cron: "0 * * * *"
   workflow_dispatch:
 
 permissions:
